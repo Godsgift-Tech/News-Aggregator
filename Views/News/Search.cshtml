@@ -1,0 +1,60 @@
+﻿@model News_Aggregator.Models.ViewModel.PagedArticlesViewModel
+@{
+    ViewBag.Title = "Search Results";
+}
+
+<h2>Search Results</h2>
+
+<!-- Display the search term and category (if available) -->
+@if (!string.IsNullOrEmpty(Model.SearchTerm))
+
+{
+    <p>Showing results for: <strong>@Model.SearchTerm</strong></p>
+}
+@if (!string.IsNullOrEmpty(Model.Category))
+
+{
+    <p>Filtered by category: <strong>@Model.Category</strong></p>
+}
+
+<!-- Articles List -->
+@if (Model.Articles != null && Model.Articles.Count > 0)
+
+{
+    <div class="articles-list">
+        @foreach (var article in Model.Articles)
+
+        {
+            <div class="article-item">
+                <h3>@article.title</h3>
+                <p>@article.description</p>
+                <p><small>Published at: @(article.publishedAt.ToString("MMMM dd, yyyy") ?? "N/A")</small></p>
+                <a href="@article.url" target="_blank" class="btn btn-primary">Read More</a>
+            </div>
+            <hr />
+        }
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+        @if (Model.CurrentPage > 1)
+
+        {
+            <a href="@Url.Action("Search", new { query = Model.SearchTerm, page = Model.CurrentPage - 1, category = Model.Category })" class="btn btn-secondary">Previous</a>
+        }
+
+        <span>Page @Model.CurrentPage of @Model.TotalPages</span>
+
+        @if (Model.CurrentPage < Model.TotalPages)
+
+        {
+            <a href="@Url.Action("Search", new { query = Model.SearchTerm, page = Model.CurrentPage + 1, category = Model.Category })" class="btn btn-secondary">Next</a>
+        }
+    </div>
+}
+
+else
+
+{
+    <p>No articles found for your search.</p>
+}

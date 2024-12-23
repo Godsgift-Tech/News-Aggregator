@@ -1,0 +1,105 @@
+﻿@model News_Aggregator.Models.ViewModel.PagedArticlesViewModel
+
+@{
+    bool isAuthorized = User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("");
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Top Headlines</h2>
+            @if (isAuthorized)
+            {
+                <a href="@Url.Action("Create", "News")" class="btn btn-primary">Create New Article</a>
+            }
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.Articles != null && Model.Articles.Any())
+
+        {
+            @foreach (var article in Model.Articles)
+
+            {
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card mb-4">
+                        <img src="@(string.IsNullOrEmpty(article.urlToImage) ? "/images/placeholder.jpg" : article.urlToImage)" class="card-img-top" alt="@(article.title ?? "No title available")" />
+                        <div class="card-body">
+                            <h5 class="card-title">@article.title ?? "No title available"</h5>
+                            <p class="card-text">
+                                @if (!string.IsNullOrEmpty(article.description))
+
+                                {
+                                    if (article.description.Length > 150)
+                                    {
+                                        @article.description.Substring(0, 150)
+
+                                        <a href="@article.url" class="btn btn-link" target="_blank">Read more</a>
+                                    }
+                                    else
+                                    {
+                                        @article.description
+                                    }
+
+                                }
+
+                                else
+
+                                {
+                                    <span>No description available</span>
+                                }
+                            </p>
+                            <p><strong>Source:</strong> @article.Source?.name ?? "Unknown"</p>
+
+                            <!-- Form to save the article -->
+                            <form asp-controller="News" asp-action="SaveArticle" method="post" style="display:inline;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="Title" value="@article.title" />
+                                <input type="hidden" name="Description" value="@article.description" />
+                                <input type="hidden" name="Source" value="@article.Source?.name" />
+                                <input type="hidden" name="Url" value="@article.url" />
+                                <button type="submit" class="btn btn-success" aria-label="Save article @article.title">Save</button>
+                            </form>
+
+                           
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        else
+
+        {
+            <div class="col-md-12">
+                <p>No articles found.</p>
+            </div>
+        }
+    </div>
+
+    <!-- Search form -->
+    <form method="get" asp-action="Index">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search for any news of your choice..." aria-label="Search for news" value="@ViewBag.SearchTerm" />
+            </div>
+            <div class="col-md-4">
+
+                <!--Creating a category session for selecting the category of news you want-->
+                <select name="category" class="form-control" aria-label="Select category">
+                    <option value="">All Categories</option>
+                    <option value="business" selected="@(ViewBag.Category == "business")">Business</option>
+                    <option value="technology" selected="@(ViewBag.Category == "technology")">Technology</option>
+                    <option value="entertainment" selected="@(ViewBag.Category == "entertainment")">Entertainment</option>
+                    <option value="romance" selected="@(ViewBag.Category == "romance")">Romance</option>
+                    <option value="politics" selected="@(ViewBag.Category == "politics")">Politics</option>
+                    <option value="sports" selected="@(ViewBag.Category == "sports")">Sports</option>
+                    <!-- Add other categories as needed -->
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>

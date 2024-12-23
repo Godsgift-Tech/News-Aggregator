@@ -1,0 +1,16 @@
+﻿@model News_Aggregator.Models.ViewModel.MyArticles
+
+@{
+    ViewData["Title"] = "Delete Article";
+}
+
+<h1>Delete Article</h1>
+
+<p>Are you sure you want to delete the article "@Model.Title"?</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">Delete</button>
+</form>
+
+<a asp-action="Index">Cancel</a>

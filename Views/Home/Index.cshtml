@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Landing Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+            .header h1 {
+                font-size: 2.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .header p {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+        .cta-button {
+            background: #ff6f61;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button {
+            background: green;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+            .cta-button:hover {
+                background: #e65a50;
+            }
+
+        .articles-section {
+            display: flex;
+            justify-content: space-around;
+            padding: 2rem;
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+
+            .article-card h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .article-card p {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+
+        .read-more {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .read-more:hover {
+                color: #ff6f61;
+            }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.5rem;
+            background: black;
+            color: #fff;
+        }
+
+    </style>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Today's Headlines</h1>
+        <p>Stay updated with the latest news around the world</p>
+        <a href="#articles" class="cta-button">Browse News</a>
+    </header>
+
+    <section id="articles" class="articles-section">
+        <div class="article-card">
+            <h2>Upload your news here</h2>
+            <p>Short description for news headline ...</p>
+            
+            <a href="#" class="read-more">Read More</a>
+        </div>
+        <div class="article-card">
+            <h2>What is trending?</h2>
+            <p>Summary of whats trending for the week.</p>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="fileUpload">Choose a file:</label>
+                <input type="file" id="fileUpload" name="file News" required>
+                <br><br>
+                <a href="submit" class="button">Upload News</a>
+
+
+            </form>
+           
+        </div>
+        <div class="article-card">
+            <h2>Flames</h2>
+            <p>Chat with lonely lovely people for cash</p>
+            <a href="#" class="read-more">Read More</a>
+        </div>
+    </section>
+
+   
+</body>
+</html>
